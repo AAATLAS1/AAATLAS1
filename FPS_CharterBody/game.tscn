@@ -1,0 +1,86 @@
+[gd_scene load_steps=14 format=3 uid="uid://brgxhmldqk8q6"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_6vxrh"]
+[ext_resource type="Texture2D" uid="uid://cwl65x76yy8ej" path="res://05d3dc7e4c35a173cc55d318847e.jpg" id="1_mu2u1"]
+[ext_resource type="Texture2D" uid="uid://ddcdisyhw4hqs" path="res://image (7).png" id="3_prr4y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gj5u6"]
+albedo_texture = ExtResource("1_mu2u1")
+
+[sub_resource type="BoxMesh" id="BoxMesh_c3opc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h3236"]
+albedo_color = Color(0.247059, 0.462745, 0, 1)
+albedo_texture = ExtResource("1_mu2u1")
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_h6w20"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1f1l4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7k3kp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m1sdu"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_vtpy2"]
+panorama = ExtResource("3_prr4y")
+
+[sub_resource type="Sky" id="Sky_fxffv"]
+sky_material = SubResource("PanoramaSkyMaterial_vtpy2")
+
+[sub_resource type="Environment" id="Environment_to85d"]
+background_mode = 2
+background_energy_multiplier = 1.72
+sky = SubResource("Sky_fxffv")
+ambient_light_source = 3
+ambient_light_color = Color(0.278431, 0.494118, 1, 1)
+ambient_light_energy = 2.44
+
+[node name="World" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(106.887, 0, 0, 0, 0.473241, 0, 0, 0, 114.889, 0, 0.0713887, 0)
+material_override = SubResource("StandardMaterial3D_gj5u6")
+mesh = SubResource("BoxMesh_c3opc")
+surface_material_override/0 = SubResource("StandardMaterial3D_h3236")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+disable_mode = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_h6w20")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.971659, -0.236389, -2.67304e-05, 0.0617089, 0.253541, 0.965354, -0.228192, -0.937997, 0.260942, 0, 13.8614, 0)
+shadow_enabled = true
+
+[node name="CharacterBody3D2" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48173, 0)
+disable_mode = 1
+script = ExtResource("1_6vxrh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.551724, 0)
+mesh = SubResource("CapsuleMesh_1f1l4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.543497, 0)
+shape = SubResource("CapsuleShape3D_7k3kp")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 0.999556, -0.0298058, 0, 0.0298058, 0.999556, 0, 1.11367, -0.457512)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(6.94113, 0, 0, 0, 9.40404, 0, 0, 0, 8.14153, 0, 2.98967, -8.02395)
+mesh = SubResource("BoxMesh_c3opc")
+surface_material_override/0 = SubResource("StandardMaterial3D_m1sdu")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+disable_mode = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_h6w20")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_to85d")
